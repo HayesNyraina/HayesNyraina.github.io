@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>lab3-03-086-数字展销平台+登陆注册功能</title>
+    <link rel="stylesheet" href="css/lab3-03-086-index.css">
+</head>
+<body>
+    <!-- 登录注册弹窗（默认显示，父相子绝核心） -->
+    <div id="login-modal">
+        <div class="modal-box"> <!-- 父相容器 -->
+            <!-- 头部切换 -->
+            <div class="modal-header">
+                <span class="active" id="loginTab">密码登录</span>
+                <span>|</span>
+                <span id="registerTab">注册账号</span>
+            </div>
+
+            <!-- 登录面板（子绝，默认显示） -->
+            <div class="modal-panel" id="loginPanel">
+                <input type="text" id="username" placeholder="请输入用户名">
+                <input type="password" id="pwd" placeholder="请输入密码">
+                <div class="agree">
+                    <input type="checkbox" id="agree">
+                    <label for="agree">同意用户协议</label>
+                </div>
+                <button onclick="handleLogin()">登录</button>
+                <p class="switch" onclick="showRegister()">没有账号？去注册</p>
+            </div>
+
+            <!-- 注册面板（子绝，默认隐藏） -->
+            <div class="modal-panel hide" id="registerPanel">
+                <input type="text" id="regUser" placeholder="设置用户名">
+                <input type="password" id="regPwd" placeholder="设置密码">
+                <input type="password" id="regPwd2" placeholder="确认密码">
+                <button onclick="handleRegister()">注册</button>
+                <p class="switch" onclick="showLogin()">已有账号？去登录</p>
+            </div>
+
+            <!-- 第三方登录图标（和课堂PPT一致） -->
+            <div class="modal-footer">
+                <span class="icon wechat"></span>
+                <span class="icon alipay"></span>
+                <span class="icon qq"></span>
+                <span class="icon weibo"></span>
+                <span class="icon baidu"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 你的数字展销平台内容（默认隐藏，登录后显示） -->
+    <div id="shop-page" class="hide">
+        <!-- 头部区域：固定定位导航 -->
+        <header class="header">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo">
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">图书分类</a></li>
+                    <li><a href="#">新书推荐</a></li>
+                    <li><a href="#">热门图书</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="javascript:;" class="logout-btn" onclick="handleLogout()">退出登录</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- 主体三栏布局 -->
+        <main class="main">
+            <!-- 左侧栏：相对定位 -->
+            <aside class="left-sidebar">
+                <h3>图书分类</h3>
+                <ul class="category-nav">
+                    <li><a href="#">计算机科学</a></li>
+                    <li><a href="#">文学小说</a></li>
+                    <li><a href="#">生活健康</a></li>
+                    <li><a href="#">经济管理</a></li>
+                    <li><a href="#">自然科学</a></li>
+                </ul>
+            </aside>
+
+            <!-- 中间栏：浮动布局 -->
+            <section class="center-content">
+                <!-- 图书展示区：父相子绝悬停效果 -->
+                <div class="book-showcase">
+                    <h3>精选图书</h3>
+                    <div class="book-item">
+                        <div class="book-cover">
+                            <img src="img/book1.jpg" alt="计算机组成原理">
+                            <div class="book-hover">
+                                <p>点击查看详情</p>
+                            </div>
+                        </div>
+                        <p class="book-name">计算机组成原理</p>
+                        <p class="book-price">¥59.00</p>
+                    </div>
+                    <div class="book-item">
+                        <div class="book-cover">
+                            <img src="img/book2.jpg" alt="计算机科学导论">
+                            <div class="book-hover">
+                                <p>点击查看详情</p>
+                            </div>
+                        </div>
+                        <p class="book-name">计算机科学导论</p>
+                        <p class="book-price">¥49.00</p>
+                    </div>
+                </div>
+
+                <!-- 热门推荐：浮动排列 -->
+                <div class="hot-recommend">
+                    <h3>热门推荐</h3>
+                    <div class="recommend-list">
+                        <div class="recommend-item">
+                            <img src="img/hot1.jpg" alt="HTML5+CSS3+JavaScript网页设计基础与实战">
+                            <p>HTML5+CSS3+JavaScript网页设计基础与实战</p>
+                            <p class="price">¥45.00</p>
+                        </div>
+                        <div class="recommend-item">
+                            <img src="img/hot2.jpg" alt="计算机安全：原理与实践">
+                            <p>计算机安全：原理与实践</p>
+                            <p class="price">¥69.00</p>
+                        </div>
+                        <div class="recommend-item">
+                            <img src="img/hot3.png" alt="计算机网络教程（第7版）">
+                            <p>计算机网络教程（第7版）</p>
+                            <p class="price">¥55.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 新书上市：Table布局 -->
+                <div class="new-book">
+                    <h3>新书上市</h3>
+                    <table border="1" cellpadding="8" cellspacing="0">
+                        <tr>
+                            <th>书名</th>
+                            <th>作者</th>
+                            <th>出版日期</th>
+                            <th>价格</th>
+                        </tr>
+                        <tr>
+                            <td>窄门</td>
+                            <td>[法] 安德烈·纪德</td>
+                            <td>2026-03-10</td>
+                            <td>¥32.00</td>
+                        </tr>
+                        <tr>
+                            <td>空腹力</td>
+                            <td>[日] 石原结实</td>
+                            <td>2026-04-01</td>
+                            <td>¥39.00</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 右侧栏：固定定位 -->
+            <aside class="right-sidebar">
+                <div class="ad-box">
+                    <h3>限时促销</h3>
+                    <img src="img/ad.jpg" alt="促销广告">
+                    <p>满100减30，满200减70</p>
+                </div>
+            </aside>
+        </main>
+
+        <footer class="footer">
+            <p>©2026 校园图书商城 | 鲁东大学计算机与人工智能学院 计算本2503班</p>
+        </footer>
+    </div>
+
+    <!-- 登录注册核心JS -->
+    <script>
+        // 获取核心元素
+        const loginPanel = document.getElementById("loginPanel");
+        const registerPanel = document.getElementById("registerPanel");
+        const loginTab = document.getElementById("loginTab");
+        const registerTab = document.getElementById("registerTab");
+        const loginModal = document.getElementById("login-modal");
+        const shopPage = document.getElementById("shop-page");
+
+        // 页面加载时检查登录状态
+        window.onload = () => {
+            if (localStorage.getItem("isLoggedIn") === "true") {
+                loginModal.classList.add("hide");
+                shopPage.classList.remove("hide");
+            }
+        };
+
+        // 切换到注册面板（显示隐藏核心）
+        function showRegister() {
+            loginPanel.classList.add("hide");
+            registerPanel.classList.remove("hide");
+            loginTab.classList.remove("active");
+            registerTab.classList.add("active");
+        }
+
+        // 切换到登录面板（显示隐藏核心）
+        function showLogin() {
+            registerPanel.classList.add("hide");
+            loginPanel.classList.remove("hide");
+            registerTab.classList.remove("active");
+            loginTab.classList.add("active");
+        }
+
+        // 注册逻辑（本地存储）
+        function handleRegister() {
+            const user = document.getElementById("regUser").value.trim();
+            const pwd = document.getElementById("regPwd").value.trim();
+            const pwd2 = document.getElementById("regPwd2").value.trim();
+            
+            if (!user || !pwd || !pwd2) { 
+                alert("所有输入框不能为空！"); 
+                return; 
+            }
+            if (pwd !== pwd2) { 
+                alert("两次密码输入不一致！"); 
+                return; 
+            }
+            
+            // 保存到本地存储
+            localStorage.setItem("username", user);
+            localStorage.setItem("password", pwd);
+            alert("注册成功！请登录");
+            showLogin();
+        }
+
+        // 登录逻辑（本地存储比对）
+        function handleLogin() {
+            const user = document.getElementById("username").value.trim();
+            const pwd = document.getElementById("pwd").value.trim();
+            const agree = document.getElementById("agree").checked;
+            
+            if (!user || !pwd) { 
+                alert("用户名和密码不能为空！"); 
+                return; 
+            }
+            if (!agree) { 
+                alert("请先同意用户协议！"); 
+                return; 
+            }
+            
+            const savedUser = localStorage.getItem("username");
+            const savedPwd = localStorage.getItem("password");
+            
+            if (user === savedUser && pwd === savedPwd) {
+                // 登录成功：保存状态，显示展销平台
+                localStorage.setItem("isLoggedIn", "true");
+                loginModal.classList.add("hide");
+                shopPage.classList.remove("hide");
+            } else {
+                alert("用户名或密码错误！");
+            }
+        }
+        // 退出登录功能（清除本地存储+返回登录页）
+        function handleLogout() {
+            // 1. 弹出确认框，防止误操作
+            if (confirm("确定要退出登录吗？")) {
+                // 2. 清除本地存储的所有登录相关数据
+                localStorage.removeItem("username");
+                localStorage.removeItem("password");
+                localStorage.removeItem("isLoggedIn");
+                
+                // 3. 隐藏展销平台，显示登录弹窗
+                shopPage.classList.add("hide");
+                loginModal.classList.remove("hide");
+                
+                // 4. 重置登录面板（清空输入框+默认显示登录页）
+                document.getElementById("username").value = "";
+                document.getElementById("pwd").value = "";
+                document.getElementById("agree").checked = false;
+                showLogin(); // 确保退出后默认显示登录面板
+                
+                // 5. 提示退出成功
+                alert("已成功退出登录！");
+            }
+        }
+    </script>
+</body>
+</html>
